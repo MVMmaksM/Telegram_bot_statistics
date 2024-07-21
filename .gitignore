@@ -1,4 +1,4 @@
 node_modules/
 /src/config/app.conf.js
-db/
+db/telegramBotStatistics.db
 /src/config/db.conf.js
