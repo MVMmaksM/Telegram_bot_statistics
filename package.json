@@ -1,19 +1,40 @@
 {
 
   "name": "telegram_bot_statistics",
+
   "version": "1.0.0",
+
   "description": "test bot statistics",
+
   "main": "app.js",
+
   "scripts": {
+
     "start": "node ./src/app.js"
+
   },
+
   "author": "MVMmaksM",
+
   "license": "ISC",
+
   "devDependencies": {
+
+    "js-md5": "^0.8.3",
+
+    "knex": "^3.1.0",
+
+    "sqlite3": "^5.1.7",
+
     "telegraf": "^4.16.3"
+
   },
+
   "dependencies": {
+
     "uri-js": "^4.2.2"
+
   }
+
 }
 
