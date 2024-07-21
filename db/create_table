@@ -1,0 +1,9 @@
+-- users определение
+
+CREATE TABLE users 
+(
+    id integer primary key autoincrement not null,
+    username text unique not null, 
+    password text not null, 
+    date_create numeric null, 
+    is_active numeric null);
