@@ -23,7 +23,7 @@ async function getStatistics(server){
                 routers_statistics.push(
                 {
                     route_id: route_id[0].id, 
-                    date_request: new Date(), 
+                    date_request: new Date().toISOString(), 
                     count_lastLaggy5s: data.ok[prop]?.lastLaggy5s.length,
                     count_lastLaggy10s: data.ok[prop]?.lastLaggy10s.length 
                 });
@@ -38,7 +38,7 @@ async function getStatistics(server){
                 routers_statistics.push(
                 {
                     route_id: route_id[0].id, 
-                    date_request: new Date(), 
+                    date_request: new Date().toISOString(), 
                     count_lastLaggy5s: data.ok[prop]?.lastLaggy5s.length,
                     count_lastLaggy10s: 0 
                 });    
@@ -53,7 +53,7 @@ async function getStatistics(server){
                 routers_statistics.push( 
                 {
                     route_id: route_id[0].id, 
-                    date_request: new Date(), 
+                    date_request: new Date().toISOString(), 
                     count_lastLaggy5s: 0,
                     count_lastLaggy10s: data.ok[prop]?.lastLaggy10s.length 
                 });
