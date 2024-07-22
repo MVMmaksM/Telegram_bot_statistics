@@ -4,6 +4,7 @@ const isAuth = require('./service/authentication/auth.js');
 const Telegraf = require('telegraf').Telegraf;
 const bot = new Telegraf(config.bot_api_token);
 const createInstance = require('./db/createInstance.js');
+const Server = require('./db/serverRepository/serverRepository.js');
 
 global.instance = createInstance();
 
@@ -24,15 +25,13 @@ bot.use(async(context, next)=>{
 });
 
 bot.use(async(context, _)=>{
-    let res = await getStatistics(config.ip_master_server);
-    await context.telegram.sendMessage(context.message.chat.id, res);
+    const servers = await Server.getAllServers(global.instance);
 
-    res = await getStatistics(config.ip_replica_yandex_1);
-    await context.telegram.sendMessage(context.message.chat.id, res);
-
-    res = await getStatistics(config.ip_replica_yandex_2);
-    await context.telegram.sendMessage(context.message.chat.id, res);
-})
+    for (let i=0; i<servers.length; i++){
+        const res = await getStatistics(servers[i]);
+        await context.telegram.sendMessage(context.message.chat.id, res);
+    }
+});
 
 bot.launch();
 
