@@ -16,51 +16,56 @@ async function getStatistics(server){
         
         for (const prop in data.ok){
             if(data.ok[prop]?.lastLaggy5s.length > 0 && data.ok[prop]?.lastLaggy10s.length > 0){               
-                result += `\n\n${prop}:\nlastLaggy5s: ${data.ok[prop]?.lastLaggy5s.length}`;
-                result += `\nlastLaggy10s: ${data.ok[prop]?.lastLaggy10s.length}`;
                 if (!routers.find(r => r.name === prop)){
                     await Routers.addRouters(instance, {server_id: server.id, name: prop.trim()});                   
                 }
-                const route_id = await Routers.getIdRouterByServerIdName(instance, server.id, prop.trim());             
-                await RouterStatistics.addRouterStatistics(instance, 
-                    {
-                        route_id: route_id[0].id, 
-                        date_request: new Date(), 
-                        count_lastLaggy5s: data.ok[prop]?.lastLaggy5s.length,
-                        count_lastLaggy10s: data.ok[prop]?.lastLaggy10s.length 
-                    });
-            }else if(data.ok[prop]?.lastLaggy5s.length > 0){
-                result += `\n\n${prop}:\nlastLaggy5s: ${data.ok[prop]?.lastLaggy5s.length}`;
-
-                if (!routers.find(r => r.name === prop)){
-                    await Routers.addRouters(instance, {server_id: server.id, name: prop.trim()});
-                }
-                const route_id = await Routers.getIdRouterByServerIdName(instance, server.id, prop.trim());                
-                await RouterStatistics.addRouterStatistics(instance, 
-                    {
-                        route_id: route_id[0].id, 
-                        date_request: new Date(), 
-                        count_lastLaggy5s: data.ok[prop]?.lastLaggy5s.length,
-                        count_lastLaggy10s: 0 
-                    });
-            }                
-            else if(data.ok[prop]?.lastLaggy10s.length > 0){
-                result += `\n\n${prop}:\nlastLaggy10s: ${data.ok[prop]?.lastLaggy10s.length}`;
+                const route_id = await Routers.getIdRouterByServerIdName(instance, server.id, prop.trim());
+                routers_statistics.push(
+                {
+                    route_id: route_id[0].id, 
+                    date_request: new Date(), 
+                    count_lastLaggy5s: data.ok[prop]?.lastLaggy5s.length,
+                    count_lastLaggy10s: data.ok[prop]?.lastLaggy10s.length 
+                });
                 
+                result += `\n\n${prop}:\nlastLaggy5s: ${data.ok[prop]?.lastLaggy5s.length}`;
+                result += `\nlastLaggy10s: ${data.ok[prop]?.lastLaggy10s.length}`;
+            }else if(data.ok[prop]?.lastLaggy5s.length > 0){          
                 if (!routers.find(r => r.name === prop)){
                     await Routers.addRouters(instance, {server_id: server.id, name: prop.trim()});
                 }
                 const route_id = await Routers.getIdRouterByServerIdName(instance, server.id, prop.trim());
-                await RouterStatistics.addRouterStatistics(instance, 
-                    {
-                        route_id: route_id[0].id, 
-                        date_request: new Date(), 
-                        count_lastLaggy5s: 0,
-                        count_lastLaggy10s: data.ok[prop]?.lastLaggy10s.length 
-                    });
+                routers_statistics.push(
+                {
+                    route_id: route_id[0].id, 
+                    date_request: new Date(), 
+                    count_lastLaggy5s: data.ok[prop]?.lastLaggy5s.length,
+                    count_lastLaggy10s: 0 
+                });    
+                
+                result += `\n\n${prop}:\nlastLaggy5s: ${data.ok[prop]?.lastLaggy5s.length}`;
+            }                
+            else if(data.ok[prop]?.lastLaggy10s.length > 0){                
+                if (!routers.find(r => r.name === prop)){
+                    await Routers.addRouters(instance, {server_id: server.id, name: prop.trim()});
+                }
+                const route_id = await Routers.getIdRouterByServerIdName(instance, server.id, prop.trim());
+                routers_statistics.push( 
+                {
+                    route_id: route_id[0].id, 
+                    date_request: new Date(), 
+                    count_lastLaggy5s: 0,
+                    count_lastLaggy10s: data.ok[prop]?.lastLaggy10s.length 
+                });
+
+                result += `\n\n${prop}:\nlastLaggy10s: ${data.ok[prop]?.lastLaggy10s.length}`;
             }
         }
     } 
+
+    if(routers_statistics.length!=0){
+        await RouterStatistics.addRouterStatistics(instance, routers_statistics);
+    }
     
     if(result === `Адрес сервера: ${server.url}`)
         result = "Not laggy";
