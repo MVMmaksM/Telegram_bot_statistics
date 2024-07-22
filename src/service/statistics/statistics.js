@@ -12,7 +12,8 @@ async function getStatistics(server){
     if(responce.status === 200){        
         const dataText = await responce.text();
         const data = JSON.parse(dataText);
-        result = `Адрес сервера: ${server.url}`;
+        result = new Date().toISOString();
+        result += `\n${server.url}`;
         
         for (const prop in data.ok){
             if(data.ok[prop]?.lastLaggy5s.length > 0 && data.ok[prop]?.lastLaggy10s.length > 0){               
@@ -65,11 +66,8 @@ async function getStatistics(server){
 
     if(routers_statistics.length!=0){
         await RouterStatistics.addRouterStatistics(instance, routers_statistics);
-    }
-    
-    if(result === `Адрес сервера: ${server.url}`)
-        result = "Not laggy";
-    
+    }  
+
     return result;
 }
 
