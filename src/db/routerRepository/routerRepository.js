@@ -16,6 +16,8 @@ class Routers {
     static async addRouters(instance, routers){
         await instance("routers")
              .insert(routers);
+        const lastInsertRowId = await instance.raw(`SELECT last_insert_rowid() AS id`);
+        return lastInsertRowId[0].id;
     }
 }
 

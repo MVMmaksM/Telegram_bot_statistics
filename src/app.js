@@ -16,12 +16,15 @@ bot.use(async(context, next)=>{
     const credentials = context.message.text.split(" ");
 
     if(credentials.length === 2){
-        if(isAuth(credentials[0], credentials[1])){
-            next();
-            return;
+        const resAuth = await isAuth(global.instance, credentials[0], credentials[1]);
+
+        if(resAuth){
+            next();           
         }
-    }    
-    await context.telegram.sendMessage(context.message.chat.id, "Неверный логин или пароль");
+        else{
+            await context.telegram.sendMessage(context.message.chat.id, "Неверный логин или пароль");
+        }
+    }       
 });
 
 bot.use(async(context, _)=>{

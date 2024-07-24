@@ -1,17 +1,14 @@
 const config = require('../../config/app.conf');
 const md5 = require('js-md5');
 
-async function isAuth(login, password){
-    const instance  = global.instance;
+async function isAuth(instance, login, password){
 
     const user = await instance
         .select("id")
         .from("users")
         .where({username: login, password: md5(password)});
-
-    if(user)
-        return true;
-    return false;
+    
+    return user[0]?.id ? true : false;
 }
 
 module.exports = isAuth;
