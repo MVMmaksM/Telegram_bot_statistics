@@ -13,20 +13,14 @@ bot.start((context)=> {
 })
 
 bot.use(async(context, next)=>{
-    const credentials = context.message.text.split(" ");
+    console.log(context.message);
+    const resAuth = await isAuth(global.instance, context.message.text);
 
-    if(credentials.length === 2){
-        const resAuth = await isAuth(global.instance, credentials[0], credentials[1]);
-
-        if(resAuth){
-            next();           
-        }
-        else{
-            await context.telegram.sendMessage(context.message.chat.id, "Неверный логин или пароль");
-        }
+    if(resAuth){       
+        next();
     }else{
         await context.telegram.sendMessage(context.message.chat.id, "Неверный логин или пароль");
-    }       
+    }   
 });
 
 bot.use(async(context, _)=>{
