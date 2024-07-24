@@ -18,8 +18,7 @@ async function getStatistics(server){
         for (const routeName in data.ok){
             if(data.ok[routeName]?.lastLaggy5s.length > 0 && data.ok[routeName]?.lastLaggy10s.length > 0){               
                 if (!routers.find(r => r.name === routeName)){
-                    const rowId = await Routers.addRouters(instance, {server_id: server.id, name: routeName.trim()}); 
-                    console.log(rowId);                  
+                    const rowId = await Routers.addRouters(instance, {server_id: server.id, name: routeName.trim()});                                   
                 }
                 const route_id = await Routers.getIdRouterByServerIdName(instance, server.id, routeName.trim());
                 routers_statistics.push(

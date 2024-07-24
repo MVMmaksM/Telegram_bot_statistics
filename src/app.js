@@ -24,6 +24,8 @@ bot.use(async(context, next)=>{
         else{
             await context.telegram.sendMessage(context.message.chat.id, "Неверный логин или пароль");
         }
+    }else{
+        await context.telegram.sendMessage(context.message.chat.id, "Неверный логин или пароль");
     }       
 });
 
