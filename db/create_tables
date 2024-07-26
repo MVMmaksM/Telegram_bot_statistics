@@ -1,0 +1,38 @@
+-- routers определение
+CREATE TABLE routers 
+(
+    id integer not null primary key autoincrement, 
+    server_id integer not null, 
+    name text not null, 
+    FOREIGN KEY(server_id) REFERENCES servers (id),
+    unique(server_id, name)
+);
+
+-- routers_statistics определение
+CREATE TABLE routers_statistics 
+(
+	id integer primary key autoincrement,
+	route_id integer not null,
+	date_request text not null,
+	count_lastLaggy5s integer not null,
+	count_lastLaggy10s integer not null,
+	foreign key(route_id) references routers(id)
+);
+
+-- servers определение
+CREATE TABLE servers 
+(
+	id integer not null primary key autoincrement,
+	name text not null unique,
+	url text not null unique
+);
+
+-- users определение
+CREATE TABLE users 
+(
+    id integer primary key autoincrement not null,
+    username text unique not null, 
+    password text not null, 
+    date_create numeric null, 
+    is_active numeric null
+);
