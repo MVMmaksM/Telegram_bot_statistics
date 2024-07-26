@@ -5,6 +5,7 @@ const Telegraf = require('telegraf').Telegraf;
 const bot = new Telegraf(config.bot_api_token);
 const createInstance = require('./db/createInstance.js');
 const Server = require('./db/serverRepository/serverRepository.js');
+const showLog = require('./service/logs/logger.js');
 
 global.instance = createInstance();
 
@@ -13,7 +14,8 @@ bot.start((context)=> {
 })
 
 bot.use(async(context, next)=>{
-    console.log(context.message);
+    showLogIncomigMessage(context.message);
+    
     const resAuth = await isAuth(global.instance, context.message.text);
 
     if(resAuth){       
