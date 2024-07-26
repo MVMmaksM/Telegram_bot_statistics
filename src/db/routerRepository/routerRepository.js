@@ -1,4 +1,4 @@
-class Routers {
+class Router {
     static async getAllRoutersByServerId(instance, server_id){
         return await instance
                 .select("id", "server_id", "name")
@@ -21,4 +21,4 @@ class Routers {
     }
 }
 
-module.exports = Routers;
+module.exports = Router;

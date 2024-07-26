@@ -1,10 +1,10 @@
-const Routers = require('../../db/routerRepository/routerRepository.js');
+const Router = require('../../db/routerRepository/routerRepository.js');
 const RouterStatistics = require('../../db/routerStatisticsRepository/routerStatisticsRepository.js');
 
 async function getStatistics(server){
     const instance = global.instance;
 
-    const routers = await Routers.getAllRoutersByServerId(instance, server.id);
+    const routers = await Router.getAllRoutersByServerId(instance, server.id);
 
     const responce = await fetch(server.url); 
     let result; routers_statistics = []; 
@@ -18,9 +18,9 @@ async function getStatistics(server){
         for (const routeName in data.ok){
             if(data.ok[routeName]?.lastLaggy5s.length > 0 && data.ok[routeName]?.lastLaggy10s.length > 0){               
                 if (!routers.find(r => r.name === routeName)){
-                    const rowId = await Routers.addRouters(instance, {server_id: server.id, name: routeName.trim()});                                   
+                    const rowId = await Router.addRouters(instance, {server_id: server.id, name: routeName.trim()});                                   
                 }
-                const route_id = await Routers.getIdRouterByServerIdName(instance, server.id, routeName.trim());
+                const route_id = await Router.getIdRouterByServerIdName(instance, server.id, routeName.trim());
                 routers_statistics.push(
                 {
                     route_id: route_id[0].id, 
@@ -33,9 +33,9 @@ async function getStatistics(server){
                 result += `\nlastLaggy10s: ${data.ok[routeName]?.lastLaggy10s.length}`;
             }else if(data.ok[routeName]?.lastLaggy5s.length > 0){          
                 if (!routers.find(r => r.name === routeName)){
-                    await Routers.addRouters(instance, {server_id: server.id, name: routeName.trim()});    
+                    await Router.addRouters(instance, {server_id: server.id, name: routeName.trim()});    
                 }
-                const route_id = await Routers.getIdRouterByServerIdName(instance, server.id, routeName.trim());
+                const route_id = await Router.getIdRouterByServerIdName(instance, server.id, routeName.trim());
                 routers_statistics.push(
                 {
                     route_id: route_id[0].id, 
@@ -48,9 +48,9 @@ async function getStatistics(server){
             }                
             else if(data.ok[routeName]?.lastLaggy10s.length > 0){                
                 if (!routers.find(r => r.name === routeName)){
-                    await Routers.addRouters(instance, {server_id: server.id, name: routeName.trim()});  
+                    await Router.addRouters(instance, {server_id: server.id, name: routeName.trim()});  
                 }
-                const route_id = await Routers.getIdRouterByServerIdName(instance, server.id, routeName.trim());
+                const route_id = await Router.getIdRouterByServerIdName(instance, server.id, routeName.trim());
                 routers_statistics.push( 
                 {
                     route_id: route_id[0].id, 

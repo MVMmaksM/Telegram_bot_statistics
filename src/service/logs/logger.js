@@ -13,4 +13,4 @@ function showLogIncomigMessage(contextMessage){
     console.log(log);
 }
 
-module.exports = showLog;
+module.exports = showLogIncomigMessage;

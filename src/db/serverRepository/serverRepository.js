@@ -1,4 +1,4 @@
-class Servers{
+class Server{
     static async getIdServerByIpAddress(instance, ipAddress){
         return await instance
             .select("id")
@@ -13,4 +13,4 @@ class Servers{
     }
 }
 
-module.exports = Servers;
+module.exports = Server;
