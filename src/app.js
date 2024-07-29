@@ -5,7 +5,7 @@ const Telegraf = require('telegraf').Telegraf;
 const bot = new Telegraf(config.bot_api_token);
 const createInstance = require('./db/createInstance.js');
 const Server = require('./db/serverRepository/serverRepository.js');
-const showLog = require('./service/logs/logger.js');
+const showLogIncomigMessage = require('./service/logs/logger.js');
 
 global.instance = createInstance();
 
